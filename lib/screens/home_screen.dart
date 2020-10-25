@@ -4,6 +4,7 @@ import 'package:moviephile/blocs/popular_movies_bloc.dart';
 import 'package:moviephile/events/movies_events.dart';
 import 'package:moviephile/globals/utils.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
+import 'package:moviephile/screens/movie_detail_screen.dart';
 import 'package:moviephile/states/popular_movies_state.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -185,15 +186,12 @@ class MovieWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-//      child: ListTile(
-//        leading: Text(
-//          '${movie.title}',
-//          style: TextStyle(fontSize: 10.0),
-//        ),
-//        title: Text(movie.title),
-////      subtitle: Text(movie.body),
-//        dense: true,
-//      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => MovieDetailScreen(movie)),
+        );
+      },
       child: Card(
         margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
         shape: RoundedRectangleBorder(
