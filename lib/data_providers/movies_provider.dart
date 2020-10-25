@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:moviephile/globals/keys.dart';
 import 'package:moviephile/globals/utils.dart';
 import 'package:moviephile/models/genre.dart';
@@ -15,7 +16,7 @@ class MoviesProvider {
 
   var getPopularMoviesURL = URLs.popularMoviesEndPoint;
   Future<PopularMoviesRS> getPopularMovies({int page}) async {
-    print("gtPopularMovies called!!!!");
+    Log.n("gtPopularMovies_called", "called");
     var params = {"api_key": apiKey, "language": "en-US", "page": page};
 
     try {
@@ -29,7 +30,7 @@ class MoviesProvider {
   }
 
   Future<GenreResponse> getGenres() async {
-    print("getGenres called!!!!");
+    Log.n("getGenres_called", "called");
     var params = {"api_key": apiKey, "language": "en-US", "page": 1};
 
     try {
@@ -42,22 +43,25 @@ class MoviesProvider {
     }
   }
 
-  Future<PersonResponse> getPersons() async {
-    print("getPersons called!!!!");
-    var params = {"api_key": apiKey};
+  Future<CastResponse> getCast({@required int movID}) async {
+    Log.n("getCast_called", "called");
+    var params = {"api_key": apiKey, "movie_id": movID};
 
     try {
-      Response response =
-          await _dio.get(URLs.personsEndPoint, queryParameters: params);
-      return PersonResponse.fromJson(response.data);
+//      Log.n("Error_getCast_request_sent: ", "${URLs.TMBD_URL}/credit/{$movID}");
+
+      Response response = await _dio.get(
+          "${URLs.TMBD_URL}/movie/$movID/credits",
+          queryParameters: params);
+      return CastResponse.fromJson(response.data);
     } catch (err) {
-      Log.n("Error_getPersons: ", "$err");
-      return PersonResponse.withError("$err");
+      Log.n("Error_getCast: ", "$err");
+      return CastResponse.withError("$err");
     }
   }
 
   Future<PopularMoviesRS> getMoviesByGenre(int id) async {
-    print("getPersons called!!!!");
+//    Log.n("getMoviesByGenre:", "called");
     var params = {
       "api_key": apiKey,
       "language": "en-US",
@@ -66,11 +70,26 @@ class MoviesProvider {
     };
 
     try {
+      //TODO: add right endpoint for this
       Response response =
           await _dio.get(URLs.getMoviesEndPoint, queryParameters: params);
       return PopularMoviesRS.fromJson(response.data);
     } catch (err) {
-      Log.n("Error_getPersons: ", "$err");
+      Log.n("Error_getMoviesByGenre: ", "$err");
+      return PopularMoviesRS.withError("$err");
+    }
+  }
+
+  Future<PopularMoviesRS> getNowPlaying() async {
+    Log.n("getNowPlaying_called", "yes");
+    var params = {"api_key": apiKey};
+
+    try {
+      Response response =
+          await _dio.get(URLs.nowPlayingEndPoint, queryParameters: params);
+      return PopularMoviesRS.fromJson(response.data);
+    } catch (err) {
+      Log.n("Error_getNowPlaying: ", "$err");
       return PopularMoviesRS.withError("$err");
     }
   }

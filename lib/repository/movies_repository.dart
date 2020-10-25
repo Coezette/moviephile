@@ -15,18 +15,22 @@ class MoviesRepository {
   }
 
   Future<GenreResponse> getGenres() async {
-    final GenreResponse genreResponse = await moviesProvider.getGenres();
-    return genreResponse;
+    final GenreResponse response = await moviesProvider.getGenres();
+    return response;
+  }
+
+  Future<PopularMoviesRS> getNowPlaying() async {
+    final PopularMoviesRS response = await moviesProvider.getNowPlaying();
+    return response;
   }
 
   Future<PopularMoviesRS> getMoviesByGenre(int id) async {
-    final PopularMoviesRS genreResponse =
-        await moviesProvider.getMoviesByGenre(id);
-    return genreResponse;
+    final PopularMoviesRS response = await moviesProvider.getMoviesByGenre(id);
+    return response;
   }
 
-  Future<PersonResponse> getPersons() async {
-    final PersonResponse genreResponse = await moviesProvider.getPersons();
-    return genreResponse;
+  Future<CastResponse> getCast({@required int movID}) async {
+    final CastResponse response = await moviesProvider.getCast(movID: movID);
+    return response;
   }
 }

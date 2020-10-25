@@ -15,6 +15,7 @@ class URLs {
   static const String personsEndPoint = "$TMBD_URL/trending/person/week";
   static const String getMoviesEndPoint = "$TMBD_URL/discover/movie";
   static const String popularMoviesEndPoint = "$TMBD_URL/movie/popular";
+  static const String nowPlayingEndPoint = "$TMBD_URL/movie/now_playing";
 }
 
 class AppColorCodes {

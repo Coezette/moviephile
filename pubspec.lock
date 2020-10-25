@@ -71,6 +71,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0-nullsafety.1"
+  feather_icons_flutter:
+    dependency: "direct main"
+    description:
+      name: feather_icons_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.7.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -123,6 +130,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4"
+  page_indicator:
+    dependency: "direct main"
+    description:
+      name: page_indicator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.0"
   path:
     dependency: transitive
     description:
@@ -207,4 +221,4 @@ packages:
     version: "2.1.0-nullsafety.3"
 sdks:
   dart: ">=2.10.0-110 <=2.11.0-213.1.beta"
-  flutter: ">=1.16.0"
+  flutter: ">=1.16.0 <2.0.0"

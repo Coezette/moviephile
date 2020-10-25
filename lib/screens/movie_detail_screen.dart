@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:moviephile/blocs/PersonsBloc.dart';
 import 'package:moviephile/globals/utils.dart';
+import 'package:moviephile/models/person.dart';
+import 'package:moviephile/models/person_response.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
 import 'package:moviephile/more/sabt.dart';
 
@@ -95,6 +98,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 padding: const EdgeInsets.only(left: 20),
                 child: RatingBar(
                   onRatingUpdate: (val) {},
+                  ignoreGestures: true,
                   itemSize: 20,
                   minRating: 1,
                   direction: Axis.horizontal,
@@ -111,6 +115,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 ),
               ),
               createExpansionCard(),
+              Column(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 20, top: 20, bottom: 12),
+                    child: Text("Cast",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16)),
+                  ),
+                  CastSection(widget.infoItem),
+                ],
+              ),
               SizedBox(height: 90),
             ],
           ),
@@ -119,8 +137,25 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     );
   }
 
-  var _isListExpanded = false;
+//  createCastSection() {
+//    return Container(
+//      child: Column(
+//        crossAxisAlignment: CrossAxisAlignment.start,
+//        children: [
+//          Padding(
+//            padding: const EdgeInsets.only(left: 20, top: 20, bottom: 12),
+//            child: Text("Cast",
+//                style: TextStyle(
+//                    color: Colors.black,
+//                    fontWeight: FontWeight.w500,
+//                    fontSize: 16)),
+//          ),
+//        ],
+//      ),
+//    );
+//  }
 
+  var _isListExpanded = false;
   Widget createExpansionCard() {
     return GestureDetector(
       onTap: () {
@@ -175,6 +210,116 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CastSection extends StatefulWidget {
+  final MovieModel movieItem;
+
+  CastSection(this.movieItem);
+
+  @override
+  _CastSectionState createState() => _CastSectionState();
+}
+
+class _CastSectionState extends State<CastSection> {
+  MovieModel movieItem;
+  double _width = 0;
+  double _height = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    movieItem = widget.movieItem;
+    personsBloc.getPersons(movieItem.id);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _width = MediaQuery.of(context).size.width;
+    _height = MediaQuery.of(context).size.height;
+
+    return StreamBuilder<CastResponse>(
+      stream: personsBloc.subject.stream,
+      builder: (context, AsyncSnapshot<CastResponse> snapshot) {
+        if (snapshot.hasData) {
+          if (snapshot.data.error != null && snapshot.data.error.length > 0) {
+            return _buildErrorWidget(snapshot);
+          }
+          return _buildCastSection(snapshot.data);
+        } else if (snapshot.hasError) {
+          return _buildErrorWidget(snapshot);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+                backgroundColor: AppColorCodes.primaryColor),
+          );
+        }
+      },
+    );
+  }
+
+  Center _buildErrorWidget(AsyncSnapshot<CastResponse> snapshot) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text("Sorry something went wrong"),
+          SizedBox(height: 6),
+          Text("${snapshot.data.error}"),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCastSection(CastResponse data) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 5.0,
+          mainAxisSpacing: 5.0,
+        ),
+        shrinkWrap: true,
+        itemCount: data.cast.take(4).length,
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          Actor _actor = data.cast[index];
+
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Container(
+                  color: AppColorCodes.pageBackgroundColor,
+                  child: ClipRRect(
+                    borderRadius: new BorderRadius.circular(50.0),
+                    child: FadeInImage.assetNetwork(
+                      placeholder: "assets/images/placeholder.png",
+                      image:
+                          "https://image.tmdb.org/t/p/w500/${_actor.profilePath}",
+                      width: 120,
+                      height: 90,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "${_actor.name}",
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

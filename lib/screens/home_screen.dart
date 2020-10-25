@@ -230,14 +230,18 @@ class MovieWidget extends StatelessWidget {
                         height: 3,
                       ),
                       RatingBar(
-                        onRatingUpdate: (val) {},
+                        onRatingUpdate: (val) {
+                          print(val);
+                        },
                         itemSize: 20,
                         minRating: 1,
+                        ignoreGestures: true,
+
                         direction: Axis.horizontal,
                         initialRating: movie.voteAverage == null
                             ? 0
                             : movie.voteAverage / 2,
-                        allowHalfRating: true,
+//                        allowHalfRating: true,
                         itemCount: 5,
 //                        itemPadding: EdgeInsets.symmetric(horizontal: 3),
                         itemBuilder: (context, _) => Icon(

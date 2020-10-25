@@ -6,11 +6,11 @@ import 'package:rxdart/rxdart.dart';
 
 class PersonsBloc {
   final MoviesRepository _moviesRepository = MoviesRepository();
-  final BehaviorSubject<PersonResponse> _subject =
-      BehaviorSubject<PersonResponse>();
+  final BehaviorSubject<CastResponse> _subject =
+      BehaviorSubject<CastResponse>();
 
-  getPersons() async {
-    PersonResponse response = await _moviesRepository.getPersons();
+  getPersons(int movID) async {
+    CastResponse response = await _moviesRepository.getCast(movID: movID);
     _subject.sink.add(response);
   }
 
@@ -18,7 +18,7 @@ class PersonsBloc {
     _subject.close();
   }
 
-  BehaviorSubject<PersonResponse> get subject => _subject;
+  BehaviorSubject<CastResponse> get subject => _subject;
 }
 
 final personsBloc = PersonsBloc();

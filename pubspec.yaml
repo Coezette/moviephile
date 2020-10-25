@@ -33,6 +33,7 @@ dependencies:
   rxdart: ^0.24.1
   flutter_rating_bar: ^3.0.1+1
   feather_icons_flutter: ^4.7.4
+  page_indicator: ^0.3.0
 
 
 dev_dependencies:
