@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moviephile/blocs/popular_movies_bloc.dart';
 import 'package:moviephile/events/movies_events.dart';
+import 'package:moviephile/globals/utils.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
 import 'package:moviephile/states/popular_movies_state.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,6 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   PopularMoviesBloc _popularMoviesBloc;
+
+  double _width = 0;
+  double _height = 0;
 
   @override
   void initState() {
@@ -41,9 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _width = MediaQuery.of(context).size.width;
+    _height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("MoviePhile"),
+        title: Text(
+          "MoviePhile",
+          style: TextStyle(color: AppColorCodes.primaryColor),
+        ),
+        elevation: 0.0,
+        backgroundColor: AppColorCodes.pageBackgroundColor,
       ),
       body: BlocBuilder<PopularMoviesBloc, PopularMoviesState>(
         builder: (context, state) {
@@ -171,14 +184,91 @@ class MovieWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Text(
-        '${movie.title}',
-        style: TextStyle(fontSize: 10.0),
+    return GestureDetector(
+//      child: ListTile(
+//        leading: Text(
+//          '${movie.title}',
+//          style: TextStyle(fontSize: 10.0),
+//        ),
+//        title: Text(movie.title),
+////      subtitle: Text(movie.body),
+//        dense: true,
+//      ),
+      child: Card(
+        margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        elevation: 0,
+        child: Container(
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.all(15),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: new BorderRadius.circular(10.0),
+                child: FadeInImage.assetNetwork(
+                  placeholder: "assets/images/placeholder.png",
+//                  image: "https://cdn.vox-cdn.com/thumbor/heXu37IbDvVy6Qbo1wbPjNvi6Ys=/0x0:712x423/1200x800/filters:focal(385x120:497x232)/cdn.vox-cdn.com/uploads/chorus_image/image/55531035/Screen_Shot_2017_06_30_at_3.17.00_PM.0.png",
+                  image: "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
+                  width: 120,
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${movie.title}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      RatingBar(
+                        onRatingUpdate: (val) {},
+                        itemSize: 20,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        initialRating: movie.voteAverage == null
+                            ? 0
+                            : movie.voteAverage / 2,
+                        allowHalfRating: true,
+                        itemCount: 5,
+//                        itemPadding: EdgeInsets.symmetric(horizontal: 3),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.pink.withOpacity(0.7),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Text(
+                        "${movie.overview}",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.black.withOpacity(0.6)),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ),
       ),
-      title: Text(movie.title),
-//      subtitle: Text(movie.body),
-      dense: true,
     );
   }
 }

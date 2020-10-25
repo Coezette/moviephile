@@ -7,8 +7,8 @@ import 'package:rxdart/rxdart.dart';
 
 class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
   final MoviesRepository _moviesRepository = MoviesRepository();
-  final BehaviorSubject<PopularMoviesRS> _subject =
-      BehaviorSubject<PopularMoviesRS>();
+//  final BehaviorSubject<PopularMoviesRS> _subject =
+//      BehaviorSubject<PopularMoviesRS>();
 
   PopularMoviesBloc(PopularMoviesState initialState)
       : super(PopularMoviesInitial());
@@ -33,6 +33,8 @@ class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
         if (currentState is PopularMoviesSuccess) {
           final _popularMoviesRSSingePage = await _moviesRepository
               .getPopularMovies(page: currentState.page + 1);
+          print("current_movies_list_size:  ${currentState.movies.length}");
+
           yield currentState.page == currentState.popularMoviesRS.totalPages - 1
               ? currentState.copyWith(hasReachedMax: true)
               : PopularMoviesSuccess(
@@ -54,10 +56,10 @@ class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
       state is PopularMoviesSuccess && state.hasReachedMax;
 
   dispose() {
-    _subject.close();
+//    _subject.close();
   }
 
-  BehaviorSubject<PopularMoviesRS> get subject => _subject;
+//  BehaviorSubject<PopularMoviesRS> get subject => _subject;
 }
 
 //final popularMoviesBloc = PopularMoviesBloc(PopularMoviesInitial());

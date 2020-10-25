@@ -3,19 +3,30 @@ class PopularMoviesRS {
   int totalResults;
   int totalPages;
   List<MovieModel> movies;
+  String error;
 
-  PopularMoviesRS({this.page, this.totalResults, this.totalPages, this.movies});
+  PopularMoviesRS(
+      {this.page, this.totalResults, this.totalPages, this.movies, this.error});
 
   PopularMoviesRS.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     totalResults = json['total_results'];
     totalPages = json['total_pages'];
+    error = "";
     if (json['results'] != null) {
       movies = new List<MovieModel>();
       json['results'].forEach((v) {
         movies.add(new MovieModel.fromJson(v));
       });
     }
+  }
+
+  PopularMoviesRS.withError(String errValue) {
+    movies = List();
+    error = errValue;
+    page = 0;
+    totalResults = 0;
+    totalPages = 0;
   }
 
   Map<String, dynamic> toJson() {
