@@ -74,7 +74,7 @@ class MovieModel {
       this.releaseDate});
 
   MovieModel.fromJson(Map<String, dynamic> json) {
-    popularity = json['popularity'];
+    popularity = json['popularity'].toDouble();
     voteCount = json['vote_count'];
     video = json['video'];
     posterPath = json['poster_path'];

@@ -26,6 +26,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           "MoviePhile",
           style: TextStyle(color: AppColorCodes.primaryColor),
         ),
+        centerTitle: true,
       ),
       body: Column(
         children: [

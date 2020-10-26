@@ -56,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "MoviePhile",
           style: TextStyle(color: AppColorCodes.primaryColor),
         ),
+        centerTitle: true,
         elevation: 0.0,
         backgroundColor: AppColorCodes.pageBackgroundColor,
       ),

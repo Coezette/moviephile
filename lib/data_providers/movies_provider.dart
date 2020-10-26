@@ -12,7 +12,7 @@ class MoviesProvider {
 //  }
   final Dio _dio = Dio();
 
-  final String apiKey = Keys.TMDB_API_KEY;
+  final String apiKey = Keys.TMDB_API_KEY; //replace this with your own API key
 
   var getPopularMoviesURL = URLs.popularMoviesEndPoint;
   Future<PopularMoviesRS> getPopularMovies({int page}) async {

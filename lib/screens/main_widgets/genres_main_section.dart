@@ -210,17 +210,20 @@ class _MoviesByGenreListItemState extends State<MoviesByGenreListItem> {
                       builder: (context) => MovieDetailScreen(movies[index])),
                 );
               },
-              child: Card(
-                child: Container(
-                  child: ClipRRect(
-                    borderRadius: new BorderRadius.circular(10.0),
-                    child: FadeInImage.assetNetwork(
-                      placeholder: "assets/images/placeholder.png",
-                      image:
-                          "https://image.tmdb.org/t/p/w500/${movies[index].posterPath}",
-                      width: 120,
-                      height: 90,
-                      fit: BoxFit.cover,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Card(
+                  child: Container(
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(10.0),
+                      child: FadeInImage.assetNetwork(
+                        placeholder: "assets/images/placeholder.png",
+                        image:
+                            "https://image.tmdb.org/t/p/w500/${movies[index].posterPath}",
+                        width: 120,
+                        height: 90,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),

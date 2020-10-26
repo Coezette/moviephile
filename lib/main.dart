@@ -25,6 +25,7 @@ class _MyAppState extends State<MyApp> {
         ..add(FetchPopularMoviesEvent()),
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
