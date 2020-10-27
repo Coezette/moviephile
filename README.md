@@ -6,4 +6,7 @@ The app is powered by content from The Movie DataBase (TMDB), through their comp
 
 To run the App, clone/download, then edit the movies_provider.dart file (lib/data_providers/), and input your own API key (obtained from TMDB). Then then run. Replace <<Keys.TMDB_API_KEY>> with your own API key.
 
+The app code files can also be accessed by following the link to the Google Drive repo below:
+Google Drive Link: https://drive.google.com/drive/folders/1-RzvcqrMXxTLxZrpZPNuxtQNMaAbRBd9?usp=sharing
+
 (NB: this app also depends on numerous packages including RxDart, bloc_test, flutter_bloc etc, make sure to get dependences by running pub get before you build)
