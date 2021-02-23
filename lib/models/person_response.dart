@@ -12,6 +12,6 @@ class CastResponse {
         error = "";
 
   CastResponse.withError(String errorVal)
-      : cast = List(),
+      : cast = [],
         error = errorVal;
 }

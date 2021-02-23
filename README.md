@@ -1,6 +1,6 @@
 # moviephile
 
-This app allows users to gain access to an overview of popular movies. Specificall, users can see all popular movies (including details such as Ratings, Cast, and Description), as well as Popular movies by popularity.
+This app allows users to gain access to an overview of popular movies. Specifically, users can see all popular movies (including details such as Ratings, Cast, and Description), as well as Popular movies by popularity.
 
 The app is powered by content from The Movie DataBase (TMDB), through their comprehensive APIs. Check the website here (https://www.themoviedb.org/).
 

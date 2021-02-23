@@ -1,11 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:moviephile/data_providers/movies_provider.dart';
 import 'package:moviephile/models/genre.dart';
 import 'package:moviephile/models/person_response.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
+import 'package:http/http.dart' as http;
 
 class MoviesRepository {
-  final MoviesProvider moviesProvider = MoviesProvider();
+  ///Alternatively use BaseOptions for better readability
+  static final _client = http.Client();
+
+  final MoviesProvider moviesProvider = MoviesProvider(_client);
 
   Future<PopularMoviesRS> getPopularMovies({@required int page}) async {
     final PopularMoviesRS _popularMoviesRS =

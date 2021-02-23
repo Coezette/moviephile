@@ -29,7 +29,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-//        home: HomeScreen(),
         home: Scaffold(
           body: navItems[_screenNumber].screen,
           bottomNavigationBar: BottomNavigationBar(

@@ -14,8 +14,4 @@ class MockPopularMoviesRS extends Mock implements PopularMoviesRS {}
 
 class MockMoviesProvider extends Mock implements MoviesProvider {}
 
-void main() {
-//  test("repo..gets popular movies", () async {
-//    MoviesProvider _provider = MoviesProvider();
-//  });
-}
+void main() {}

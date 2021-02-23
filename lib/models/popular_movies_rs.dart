@@ -1,4 +1,6 @@
-class PopularMoviesRS {
+import 'package:equatable/equatable.dart';
+
+class PopularMoviesRS extends Equatable {
   int page;
   int totalResults;
   int totalPages;
@@ -8,13 +10,16 @@ class PopularMoviesRS {
   PopularMoviesRS(
       {this.page, this.totalResults, this.totalPages, this.movies, this.error});
 
+  @override
+  List<Object> get props => [page, totalResults, totalPages, movies, error];
+
   PopularMoviesRS.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     totalResults = json['total_results'];
     totalPages = json['total_pages'];
     error = "";
     if (json['results'] != null) {
-      movies = new List<MovieModel>();
+      movies = [];
       json['results'].forEach((v) {
         movies.add(new MovieModel.fromJson(v));
       });
@@ -22,7 +27,7 @@ class PopularMoviesRS {
   }
 
   PopularMoviesRS.withError(String errValue) {
-    movies = List();
+    movies = [];
     error = errValue;
     page = 0;
     totalResults = 0;

@@ -35,6 +35,10 @@ dependencies:
   feather_icons_flutter: ^4.7.4
   page_indicator: ^0.3.0
   bloc_test: ^7.0.6
+  mockito: ^4.1.4
+  http: ^0.12.2
+  equatable: ^1.2.6
+
 
 
 dev_dependencies:

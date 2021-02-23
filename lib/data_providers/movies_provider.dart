@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:moviephile/globals/keys.dart';
@@ -5,89 +7,79 @@ import 'package:moviephile/globals/utils.dart';
 import 'package:moviephile/models/genre.dart';
 import 'package:moviephile/models/person_response.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
+import 'package:http/http.dart' as http;
 
 class MoviesProvider {
-//  Future<RawData> readData() async {
-//    // Read from DB or make network request etc...
-//  }
-  final Dio _dio = Dio();
+  final http.Client _client;
 
-  final String apiKey = Keys.TMDB_API_KEY; //replace this with your own API key
+  MoviesProvider(this._client);
 
+  ///REPLACE with own API
+  final String apiKey = Keys.TMDB_API_KEY;
+
+  ///Call to get list of Popular Movies
   var getPopularMoviesURL = URLs.popularMoviesEndPoint;
   Future<PopularMoviesRS> getPopularMovies({int page}) async {
     Log.n("gtPopularMovies_called", "called");
-    var params = {"api_key": apiKey, "language": "en-US", "page": page};
 
     try {
-      Response response =
-          await _dio.get(getPopularMoviesURL, queryParameters: params);
-      return PopularMoviesRS.fromJson(response.data);
+      final response =
+          await _client.get("$getPopularMoviesURL?api_key=$apiKey&page=$page");
+
+      return PopularMoviesRS.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getPopularMovies: ", "$err");
       return PopularMoviesRS.withError("$err");
     }
   }
 
+  ///Call to get list of Movies Genres
   Future<GenreResponse> getGenres() async {
     Log.n("getGenres_called", "called");
-    var params = {"api_key": apiKey, "language": "en-US", "page": 1};
 
     try {
-      Response response =
-          await _dio.get(URLs.genresEndPoint, queryParameters: params);
-      return GenreResponse.fromJson(response.data);
+      final response =
+          await _client.get("${URLs.genresEndPoint}?api_key=$apiKey");
+      return GenreResponse.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getGenres: ", "$err");
       return GenreResponse.withError("$err");
     }
   }
 
-  Future<CastResponse> getCast({@required int movID}) async {
-    Log.n("getCast_called", "called");
-    var params = {"api_key": apiKey, "movie_id": movID};
-
-    try {
-//      Log.n("Error_getCast_request_sent: ", "${URLs.TMBD_URL}/credit/{$movID}");
-
-      Response response = await _dio.get(
-          "${URLs.TMBD_URL}/movie/$movID/credits",
-          queryParameters: params);
-      return CastResponse.fromJson(response.data);
-    } catch (err) {
-      Log.n("Error_getCast: ", "$err");
-      return CastResponse.withError("$err");
-    }
-  }
-
+  ///Call to get list of Movies within a particular Genre
   Future<PopularMoviesRS> getMoviesByGenre(int id) async {
-//    Log.n("getMoviesByGenre:", "called");
-    var params = {
-      "api_key": apiKey,
-      "language": "en-US",
-      "page": 1,
-      "with_genres": id,
-    };
-
     try {
-      //TODO: add right endpoint for this
-      Response response =
-          await _dio.get(URLs.getMoviesEndPoint, queryParameters: params);
-      return PopularMoviesRS.fromJson(response.data);
+      final response = await _client
+          .get("${URLs.getMoviesEndPoint}?api_key=$apiKey&with_genres=$id");
+      return PopularMoviesRS.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getMoviesByGenre: ", "$err");
       return PopularMoviesRS.withError("$err");
     }
   }
 
-  Future<PopularMoviesRS> getNowPlaying() async {
-    Log.n("getNowPlaying_called", "yes");
-    var params = {"api_key": apiKey};
+  ///Call to get Movie Cast
+  Future<CastResponse> getCast({@required int movID}) async {
+    Log.n("getCast_called", "called");
 
     try {
-      Response response =
-          await _dio.get(URLs.nowPlayingEndPoint, queryParameters: params);
-      return PopularMoviesRS.fromJson(response.data);
+      final response = await _client
+          .get("${URLs.TMBD_URL}/movie/$movID/credits?api_key=$apiKey");
+      return CastResponse.fromJson(jsonDecode(response.body));
+    } catch (err) {
+      Log.n("Error_getCast: ", "$err");
+      return CastResponse.withError("$err");
+    }
+  }
+
+  ///Call to get list of Movies Now-Playing in Cinemas
+  Future<PopularMoviesRS> getNowPlaying() async {
+    Log.n("getNowPlaying_called", "yes");
+    try {
+      final response =
+          await _client.get("${URLs.nowPlayingEndPoint}?api_key=$apiKey");
+      return PopularMoviesRS.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getNowPlaying: ", "$err");
       return PopularMoviesRS.withError("$err");
