@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:moviephile/blocs/now_playing_bloc.dart';
-import 'package:moviephile/globals/utils.dart';
-import 'package:moviephile/models/popular_movies_rs.dart';
-import 'package:moviephile/screens/main_widgets/genres_main_section.dart';
+
 import 'package:page_indicator/page_indicator.dart';
+
+import '../blocs/now_playing_bloc.dart';
+import '../globals/utils.dart';
+import '../models/popular_movies_rs.dart';
+import '../screens/main_widgets/genres_main_section.dart';
 
 class CategoriesScreen extends StatefulWidget {
   @override
@@ -50,7 +52,6 @@ class _NowPlayingMainState extends State<NowPlayingMain> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     nowPlayingBloc.getNowPlaying();
   }

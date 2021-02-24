@@ -1,14 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:moviephile/events/movies_events.dart';
-import 'package:moviephile/models/popular_movies_rs.dart';
 import 'package:moviephile/repository/movies_repository.dart';
 import 'package:moviephile/states/popular_movies_state.dart';
-import 'package:rxdart/rxdart.dart';
 
+///Bloc related to the PopularMovies response
 class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
   final MoviesRepository _moviesRepository = MoviesRepository();
-//  final BehaviorSubject<PopularMoviesRS> _subject =
-//      BehaviorSubject<PopularMoviesRS>();
 
   PopularMoviesBloc(PopularMoviesState initialState)
       : super(PopularMoviesInitial());
@@ -33,7 +31,7 @@ class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
         if (currentState is PopularMoviesSuccess) {
           final _popularMoviesRSSingePage = await _moviesRepository
               .getPopularMovies(page: currentState.page + 1);
-          print("current_movies_list_size:  ${currentState.movies.length}");
+//          print("current_movies_list_size:  ${currentState.movies.length}");
 
           yield currentState.page == currentState.popularMoviesRS.totalPages - 1
               ? currentState.copyWith(hasReachedMax: true)
@@ -46,7 +44,6 @@ class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
                 );
         }
       } catch (_) {
-        print("failure_happening ##########");
         yield PopularMoviesFailure();
       }
     }
@@ -55,34 +52,5 @@ class PopularMoviesBloc extends Bloc<MoviesEvents, PopularMoviesState> {
   bool _hasReachedMax(PopularMoviesState state) =>
       state is PopularMoviesSuccess && state.hasReachedMax;
 
-  dispose() {
-//    _subject.close();
-  }
-
-//  BehaviorSubject<PopularMoviesRS> get subject => _subject;
+  dispose() {}
 }
-
-//final popularMoviesBloc = PopularMoviesBloc(PopularMoviesInitial());
-
-//    throw UnimplementedError();
-//##### OLD Method
-/*
-class PopularMoviesBloc {
-  final MoviesRepository _moviesRepository = MoviesRepository();
-  final BehaviorSubject<PopularMoviesRS> _subject =
-      BehaviorSubject<PopularMoviesRS>();
-
-  getPopularMovies() async {
-    PopularMoviesRS response = await _moviesRepository.getPopularMovies();
-    _subject.sink.add(response);
-  }
-
-  dispose() {
-    _subject.close();
-  }
-
-  BehaviorSubject<PopularMoviesRS> get subject => _subject;
-}
-
-final popularMoviesBloc = PopularMoviesBloc();
- */

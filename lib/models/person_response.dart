@@ -1,10 +1,14 @@
+import 'package:equatable/equatable.dart';
 import 'package:moviephile/models/person.dart';
 
-class CastResponse {
+class CastResponse extends Equatable {
   final List<Actor> cast;
   final String error;
 
   CastResponse(this.cast, this.error);
+
+  @override
+  List<Object> get props => [cast, error];
 
   CastResponse.fromJson(Map<String, dynamic> json)
       : cast =

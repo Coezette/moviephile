@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:moviephile/blocs/PersonsBloc.dart';
-import 'package:moviephile/globals/utils.dart';
-import 'package:moviephile/models/person.dart';
-import 'package:moviephile/models/person_response.dart';
-import 'package:moviephile/models/popular_movies_rs.dart';
-import 'package:moviephile/more/sabt.dart';
+
+import '../blocs/PersonsBloc.dart';
+import '../globals/utils.dart';
+import '../models/person.dart';
+import '../models/person_response.dart';
+import '../models/popular_movies_rs.dart';
+import '../more/sabt.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final MovieModel infoItem;
@@ -136,24 +138,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
       ),
     );
   }
-
-//  createCastSection() {
-//    return Container(
-//      child: Column(
-//        crossAxisAlignment: CrossAxisAlignment.start,
-//        children: [
-//          Padding(
-//            padding: const EdgeInsets.only(left: 20, top: 20, bottom: 12),
-//            child: Text("Cast",
-//                style: TextStyle(
-//                    color: Colors.black,
-//                    fontWeight: FontWeight.w500,
-//                    fontSize: 16)),
-//          ),
-//        ],
-//      ),
-//    );
-//  }
 
   var _isListExpanded = false;
   Widget createExpansionCard() {

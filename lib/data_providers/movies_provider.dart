@@ -1,13 +1,13 @@
 import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:http/http.dart' as http;
+
 import 'package:moviephile/globals/keys.dart';
 import 'package:moviephile/globals/utils.dart';
 import 'package:moviephile/models/genre.dart';
 import 'package:moviephile/models/person_response.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
-import 'package:http/http.dart' as http;
 
 class MoviesProvider {
   final http.Client _client;
@@ -20,7 +20,7 @@ class MoviesProvider {
   ///Call to get list of Popular Movies
   var getPopularMoviesURL = URLs.popularMoviesEndPoint;
   Future<PopularMoviesRS> getPopularMovies({int page}) async {
-    Log.n("gtPopularMovies_called", "called");
+//    Log.n("gtPopularMovies_called", "called");
 
     try {
       final response =
@@ -35,11 +35,12 @@ class MoviesProvider {
 
   ///Call to get list of Movies Genres
   Future<GenreResponse> getGenres() async {
-    Log.n("getGenres_called", "called");
+//    Log.n("getGenres_called", "called");
 
     try {
       final response =
           await _client.get("${URLs.genresEndPoint}?api_key=$apiKey");
+
       return GenreResponse.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getGenres: ", "$err");
@@ -61,11 +62,10 @@ class MoviesProvider {
 
   ///Call to get Movie Cast
   Future<CastResponse> getCast({@required int movID}) async {
-    Log.n("getCast_called", "called");
-
     try {
       final response = await _client
           .get("${URLs.TMBD_URL}/movie/$movID/credits?api_key=$apiKey");
+
       return CastResponse.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getCast: ", "$err");
@@ -75,10 +75,11 @@ class MoviesProvider {
 
   ///Call to get list of Movies Now-Playing in Cinemas
   Future<PopularMoviesRS> getNowPlaying() async {
-    Log.n("getNowPlaying_called", "yes");
     try {
       final response =
           await _client.get("${URLs.nowPlayingEndPoint}?api_key=$apiKey");
+//      Log.n("getNowPlaying_call_Response", response.body);
+
       return PopularMoviesRS.fromJson(jsonDecode(response.body));
     } catch (err) {
       Log.n("Error_getNowPlaying: ", "$err");

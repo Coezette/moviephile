@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+///Scrollable AppBar Title, to enable animating the visibility of a widget in response to a scroll action
 class SABT extends StatefulWidget {
   final Widget child;
 

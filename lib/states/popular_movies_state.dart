@@ -1,7 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:moviephile/models/popular_movies_rs.dart';
 
-abstract class PopularMoviesState {
+abstract class PopularMoviesState extends Equatable {
   const PopularMoviesState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class PopularMoviesInitial extends PopularMoviesState {}

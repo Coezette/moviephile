@@ -1,12 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moviephile/blocs/popular_movies_bloc.dart';
-import 'package:moviephile/events/movies_events.dart';
-import 'package:moviephile/globals/utils.dart';
-import 'package:moviephile/models/popular_movies_rs.dart';
-import 'package:moviephile/screens/movie_detail_screen.dart';
-import 'package:moviephile/states/popular_movies_state.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
+import '../blocs/popular_movies_bloc.dart';
+import '../events/movies_events.dart';
+import '../globals/utils.dart';
+import '../models/popular_movies_rs.dart';
+import '../screens/movie_detail_screen.dart';
+import '../states/popular_movies_state.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,11 +28,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-//    popularMoviesBloc..getPopularMovies();
-
     _scrollController.addListener(_onScroll);
     _popularMoviesBloc = BlocProvider.of<PopularMoviesBloc>(context);
-    print("this part reached!!!X!!!");
   }
 
   @override
@@ -73,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }
           if (state is PopularMoviesSuccess) {
+//            Log.n("first_movie_item", jsonEncode(state.movies[0].toJson()));
+
             if (state.movies.isEmpty) {
               return Center(
                 child: Text('no movies'),
@@ -85,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     : MovieWidget(movie: state.movies[index]);
               },
               itemCount: state.hasReachedMax
-//                  ? state.movies.length
                   ? state.movies.length
                   : state.movies.length + 1,
               controller: _scrollController,
@@ -97,8 +99,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //######
-
   Widget _buildPopularMovieTileWidget(PopularMoviesRS data) {
     List<MovieModel> movies = data.movies;
     if (movies.length == 0) {
@@ -116,49 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
   }
-
-  /*
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("MoviePhile"),
-      ),
-      body: StreamBuilder<PopularMoviesRS>(
-        stream: _popularMoviesBloc.subject.stream,
-        builder: (context, AsyncSnapshot<PopularMoviesRS> snapshot) {
-          print("snapshotData: ${snapshot.hasData}");
-
-          if (snapshot.hasData) {
-            return _buildPopularMovieTileWidget(snapshot.data);
-          } else {
-            return Center(
-              child: Text("Sorry something went wrong"),
-            );
-          }
-        },
-      ),
-    );
-  }
-
-  Widget _buildPopularMovieTileWidget(PopularMoviesRS data) {
-    List<MovieModel> movies = data.movies;
-    if (movies.length == 0) {
-      return Center(child: Text("Sorry no movies found"));
-    } else {
-      return ListView.builder(
-        controller: _scrollController,
-        itemCount: movies.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(movies[index].title),
-          );
-        },
-      );
-    }
-  }
-   */
 }
 
 class BottomLoader extends StatelessWidget {
@@ -208,7 +165,6 @@ class MovieWidget extends StatelessWidget {
                 borderRadius: new BorderRadius.circular(10.0),
                 child: FadeInImage.assetNetwork(
                   placeholder: "assets/images/placeholder.png",
-//                  image: "https://cdn.vox-cdn.com/thumbor/heXu37IbDvVy6Qbo1wbPjNvi6Ys=/0x0:712x423/1200x800/filters:focal(385x120:497x232)/cdn.vox-cdn.com/uploads/chorus_image/image/55531035/Screen_Shot_2017_06_30_at_3.17.00_PM.0.png",
                   image: "https://image.tmdb.org/t/p/w500/${movie.posterPath}",
                   width: 120,
                   height: 80,
@@ -237,14 +193,11 @@ class MovieWidget extends StatelessWidget {
                         itemSize: 20,
                         minRating: 1,
                         ignoreGestures: true,
-
                         direction: Axis.horizontal,
                         initialRating: movie.voteAverage == null
                             ? 0
                             : movie.voteAverage / 2,
-//                        allowHalfRating: true,
                         itemCount: 5,
-//                        itemPadding: EdgeInsets.symmetric(horizontal: 3),
                         itemBuilder: (context, _) => Icon(
                           Icons.star,
                           color: Colors.pink.withOpacity(0.7),
