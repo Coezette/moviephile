@@ -13,13 +13,8 @@ class CategoriesScreen extends StatefulWidget {
 }
 
 class _CategoriesScreenState extends State<CategoriesScreen> {
-  double _width = 0;
-  double _height = 0;
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColorCodes.pageBackgroundColor,
@@ -48,7 +43,6 @@ class NowPlayingMain extends StatefulWidget {
 
 class _NowPlayingMainState extends State<NowPlayingMain> {
   double _width = 0;
-  double _height = 0;
 
   @override
   void initState() {
@@ -59,7 +53,6 @@ class _NowPlayingMainState extends State<NowPlayingMain> {
   @override
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
 
     return StreamBuilder<PopularMoviesRS>(
       stream: nowPlayingBloc.subject.stream,
