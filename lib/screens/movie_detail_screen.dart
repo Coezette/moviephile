@@ -19,8 +19,6 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  String _renderContent;
-
   @override
   void initState() {
     super.initState();
@@ -28,23 +26,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _width = MediaQuery.of(context).size.width;
-
     String _imageSource =
         "https://image.tmdb.org/t/p/w500/${widget.infoItem.posterPath}";
     String _movieTitle = widget.infoItem.title;
-
-    Text title = Text(
-      "$_movieTitle",
-      style: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
-      overflow: TextOverflow.ellipsis,
-      maxLines: 2,
-      textAlign: TextAlign.center,
-    );
 
     return Scaffold(
       backgroundColor: AppColorCodes.pageBackgroundColor,
@@ -210,8 +194,6 @@ class CastSection extends StatefulWidget {
 
 class _CastSectionState extends State<CastSection> {
   MovieModel movieItem;
-  double _width = 0;
-  double _height = 0;
 
   @override
   void initState() {
@@ -222,9 +204,6 @@ class _CastSectionState extends State<CastSection> {
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
-
     return StreamBuilder<CastResponse>(
       stream: personsBloc.subject.stream,
       builder: (context, AsyncSnapshot<CastResponse> snapshot) {

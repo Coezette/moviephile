@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+//import 'package:equatable/equatable.dart';
 
-class PopularMoviesRS extends Equatable {
+class PopularMoviesRS {
   int page;
   int totalResults;
   int totalPages;
@@ -10,8 +10,8 @@ class PopularMoviesRS extends Equatable {
   PopularMoviesRS(
       {this.page, this.totalResults, this.totalPages, this.movies, this.error});
 
-  @override
-  List<Object> get props => [page, totalResults, totalPages, movies, error];
+//  @override
+//  List<Object> get props => [page, totalResults, totalPages, movies, error];
 
   PopularMoviesRS.fromJson(Map<String, dynamic> json) {
     page = json['page'];

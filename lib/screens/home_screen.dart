@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,9 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final _scrollController = ScrollController();
   final _scrollThreshold = 200.0;
   PopularMoviesBloc _popularMoviesBloc;
-
-  double _width = 0;
-  double _height = 0;
 
   @override
   void initState() {
@@ -48,9 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -97,24 +89,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
-  }
-
-  Widget _buildPopularMovieTileWidget(PopularMoviesRS data) {
-    List<MovieModel> movies = data.movies;
-    if (movies.length == 0) {
-      return Center(child: Text("Sorry no movies found"));
-    } else {
-      return ListView.builder(
-        controller: _scrollController,
-        itemCount: movies.length,
-        scrollDirection: Axis.vertical,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(movies[index].title),
-          );
-        },
-      );
-    }
   }
 }
 

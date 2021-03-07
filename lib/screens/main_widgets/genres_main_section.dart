@@ -12,9 +12,6 @@ class GenresMainSection extends StatefulWidget {
 }
 
 class _GenresMainSectionState extends State<GenresMainSection> {
-  double _width = 0;
-  double _height = 0;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -24,9 +21,6 @@ class _GenresMainSectionState extends State<GenresMainSection> {
 
   @override
   Widget build(BuildContext context) {
-    _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
-
     return StreamBuilder<GenreResponse>(
       stream: genresBloc.subject.stream,
       builder: (context, AsyncSnapshot<GenreResponse> snapshot) {
@@ -138,7 +132,6 @@ class _MoviesByGenreListItemState extends State<MoviesByGenreListItem> {
   _MoviesByGenreListItemState(this.id);
   MovieListByGenreBloc _uniqueMBGBloc;
   double _width = 0;
-  double _height = 0;
 
   @override
   void initState() {
@@ -150,7 +143,6 @@ class _MoviesByGenreListItemState extends State<MoviesByGenreListItem> {
   @override
   Widget build(BuildContext context) {
     _width = MediaQuery.of(context).size.width;
-    _height = MediaQuery.of(context).size.height;
 
     return StreamBuilder<PopularMoviesRS>(
       stream: _uniqueMBGBloc.subject.stream,
